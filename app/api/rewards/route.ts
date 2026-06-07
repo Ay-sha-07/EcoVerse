@@ -164,6 +164,7 @@ export async function POST(req: Request) {
         rewardTransactions: {
           type: 'redeemed',
           points: shopItem.cost,
+          pointsType: 'confirmed',
           reason: 'item_purchase',
           description: `Purchased ${shopItem.name}`,
           date: new Date()
