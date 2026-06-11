@@ -11,12 +11,17 @@ def calculate_carbon_footprint(electricity_kwh, vehicle_km):
     - Electricity: ~0.85 kg CO2e per kWh
     - Average Car: ~0.14 kg CO2e per km
     """
-    # Fix: Reject NaN and infinity values
-    if not math.isfinite(electricity_kwh) or not math.isfinite(vehicle_km):
-        raise ValueError("Electricity usage and vehicle distance must be finite numbers.")
+    # Parameter-specific validation for electricity
+    if not math.isfinite(electricity_kwh):
+        raise ValueError("electricity_kwh must be a finite number.")
+    if electricity_kwh < 0:
+        raise ValueError("electricity_kwh must be non-negative.")
         
-    if electricity_kwh < 0 or vehicle_km < 0:
-        raise ValueError("Electricity usage and vehicle distance must be non-negative.")
+    # Parameter-specific validation for vehicle distance
+    if not math.isfinite(vehicle_km):
+        raise ValueError("vehicle_km must be a finite number.")
+    if vehicle_km < 0:
+        raise ValueError("vehicle_km must be non-negative.")
 
     electricity_emissions = electricity_kwh * ELEC_EMISSION_FACTOR
     transport_emissions = vehicle_km * CAR_EMISSION_FACTOR
@@ -47,7 +52,6 @@ def main():
         total, e_emissions, t_emissions = calculate_carbon_footprint(elec, trans)
         
         print("\n📊 --- Carbon Footprint Report --- 📊")
-        # Fix: Updated units to CO2e for accuracy
         print(f"Electricity Emissions: {e_emissions:.2f} kg CO2e")
         print(f"Transport Emissions:   {t_emissions:.2f} kg CO2e")
         print(f"Total Carbon Footprint: {total:.2f} kg CO2e")
