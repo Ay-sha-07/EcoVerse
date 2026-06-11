@@ -1,5 +1,9 @@
 import sys
 
+# Standard emission factors (Public constants for AI/ML pipelines)
+ELEC_EMISSION_FACTOR = 0.85  # kg CO2 per kWh
+CAR_EMISSION_FACTOR = 0.14   # kg CO2 per km
+
 def calculate_carbon_footprint(electricity_kwh, vehicle_km):
     """
     Calculates the estimated carbon footprint based on standard emission factors.
@@ -8,9 +12,6 @@ def calculate_carbon_footprint(electricity_kwh, vehicle_km):
     """
     if electricity_kwh < 0 or vehicle_km < 0:
         raise ValueError("Electricity usage and vehicle distance must be non-negative.")
-
-    ELEC_EMISSION_FACTOR = 0.85
-    CAR_EMISSION_FACTOR = 0.14
 
     electricity_emissions = electricity_kwh * ELEC_EMISSION_FACTOR
     transport_emissions = vehicle_km * CAR_EMISSION_FACTOR
@@ -36,7 +37,7 @@ def main():
         print("❌ Error: Please enter valid numeric values for vehicle distance.")
         sys.exit(1)
         
-    # 3. Calculate and display (catches the negative number error)
+    # 3. Calculate and display
     try:
         total, e_emissions, t_emissions = calculate_carbon_footprint(elec, trans)
         
