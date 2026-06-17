@@ -10,9 +10,7 @@ import {
 } from '@/lib/rewards-system';
 
 export async function GET(req: Request) {
-  // FIX: Look up identity from headers OR fall back to query strings (?email=...) for page contract compatibility
-  const { searchParams } = new URL(req.url);
-  const email = req.headers.get('x-user-email') ?? searchParams.get('email');
+  const email = req.headers.get('x-user-email');
 
   if (!email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -96,18 +94,33 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  // FIX: Read email identity gracefully using headers or fallback search parameter query strings
-  const { searchParams } = new URL(req.url);
-  const email = req.headers.get('x-user-email') ?? searchParams.get('email');
+  const email = req.headers.get('x-user-email');
 
   if (!email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    const { productName, carbonEstimate } = await req.json();
+    const payload: unknown = await req.json();
 
-    if (!productName || carbonEstimate === undefined || carbonEstimate === null) {
+    if (typeof payload !== 'object' || payload === null) {
+      return NextResponse.json(
+        { error: 'Invalid JSON payload' },
+        { status: 400 }
+      );
+    }
+
+    const { productName, carbonEstimate } = payload as {
+      productName?: unknown;
+      carbonEstimate?: unknown;
+    };
+
+    if (
+      typeof productName !== 'string' ||
+      !productName.trim() ||
+      carbonEstimate === undefined ||
+      carbonEstimate === null
+    ) {
       return NextResponse.json(
         { error: 'Missing productName or carbonEstimate' },
         { status: 400 }

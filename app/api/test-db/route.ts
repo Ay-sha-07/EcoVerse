@@ -17,7 +17,7 @@ export async function GET() {
       );
     }
 
-    console.log('✅ MONGODB_URI found:', mongoUri.substring(0, 20) + '...');
+    console.log('✅ MONGODB_URI found');
 
     // Test database connection
     const mongoose = await dbConnect();

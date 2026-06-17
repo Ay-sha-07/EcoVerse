@@ -49,8 +49,6 @@ export function useAuth() {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
-  console.log('Context avatar:', user?.avatarId);
-
   useEffect(() => {
     const storedUser = localStorage.getItem('ecoverse-user');
     if (storedUser) {
@@ -95,7 +93,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return false;
       }
 
-      console.log('✅ Signup successful:', data.user);
+      console.log('✅ Signup successful');
       setUser(data.user);
       localStorage.setItem('ecoverse-user', JSON.stringify(data.user));
       return true;
@@ -212,7 +210,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const updateAvatar = async (avatarId: AvatarId) => {
     if (user) {
-      console.log('Avatar saved:', avatarId);
       const updatedUser = {
         ...user,
         avatarId,
