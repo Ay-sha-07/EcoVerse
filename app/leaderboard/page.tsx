@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/components/auth-provider';
 import DashboardLayout from '@/components/dashboard-layout';
+import { Avatar, AvatarId } from '@/components/ui/avatar';
 import {
   Card,
   CardContent,
@@ -214,6 +215,10 @@ export default function LeaderboardPage() {
                     <div className="flex items-center gap-4">
                       {getRankIcon(currentUserData.rank)}
                       <div>
+                        <Avatar
+                          avatarId={currentUserData.avatarId}
+                          className="h-10 w-10"
+                        />
                         <div className="text-lg font-bold text-green-900">
                           Rank #{currentUserData.rank}
                         </div>

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import User from '@/models/User';
 import bcrypt from 'bcryptjs';
+import { signToken } from '@/lib/auth';
 import { setAuthCookie } from '@/lib/auth';
 
 export async function POST(req: Request) {
@@ -80,7 +81,7 @@ export async function POST(req: Request) {
       error instanceof Error ? error.message : 'Unknown server error';
 
     // Safely wrap critical runtime tracing with explicit rule suppression
-    /* eslint-disable-next-line no-console */
+
     console.error('🔥 Signup API error:', message);
 
     // FIX: Do not expose low-level database or system diagnostics directly to downstream clients
